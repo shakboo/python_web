@@ -31,7 +31,7 @@ def download(url, num_retries=2, user_agent='wswp', proxy=None):
 #download('http://tieba.baidu.com/f?kw=%E5%85%89%E6%98%8E%E5%A4%A7%E9%99%86')
 
 def get_links(html):
-    webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']'), re.IGNORECASE)
+    webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']', re.IGNORECASE)
     return webpage_regex.findall(html)
 
 
@@ -48,3 +48,26 @@ def link_crawler(seed_url, link_regex):
                 if link not in seen:
                     seen.add(link)
                     crawl_queue.append(link)
+
+#下载限速
+class Throttle:
+    def __init__(self,delay):
+        self.delay = delay
+        self.domains = {}
+
+    def wait(self,url):
+        domain = urlparse.urlparse(url).netloc
+        last_accessed = self.domains.get(domain)
+
+        if self.delay > 0 and last_accessed is not None:
+            sleep_secs = self.delay - (datetime.datetime.now() - last_accessed).seconds
+            if sleep_secs > 0:
+                time.sleep(sleep_secs)
+
+        self.domains[domain] = datetime.datetime.now()
+
+#每次下载之前调用
+#throttle = Throttle(delay)
+#...
+#throttle.wait(url)
+#result = download(url, headers, proxy=proxy, num_retries=num_retries)
