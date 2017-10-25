@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}主页{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+        <div class="col-lg-3 pull-right col-sm-5 col-md-4 col-xs-6">
+                <form class="input-group" method="post" action="{{ url_for('auth.query') }}">
+                    <input type="text" class="form-control" id="user-input" name="userInput">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-query" type="submit"><a style="text-decoration:none"> 查询</a></button>
+                    </span>
+                </form><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    <h3>Hello,
+        {% if current_user.is_authenticated %}
+        {{ current_user.username }}
+        {% else %}
+        Stranger
+        {% endif %}!
+    </h3>
+</div>
+
+
+{# 主体渲染模板 #}
+
+<br>
+<div class="posts">
+    {% for post in posts_filter %}
+    <form class="post" method="post" action="{{ url_for('main.index') }}">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title gm-exist">{{ post.gm_filter }}</h3>
+                <input name="for_query" style="display:none" value="{{ post.gm_filter }}">
+            </div>
+            <div class="panel-body info-exist">{{ post.info_filter }}</div>
+        </div>
+        {% if current_user.is_shakboo() %}
+            <button class="btn btn-danger btn-query" type="submit" name="delete"><a style="text-decoration:none"><font style="color:white"> 删除</font></a></button>
+        {% endif %}
+    </form>
+        {% if current_user.is_shakboo() %}
+            <br>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../../../static/script/query.js"></script>
+{% endblock %}
