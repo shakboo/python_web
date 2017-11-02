@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=E:\python-myself\GMquery_git\venv"
+set "VIRTUAL_ENV=E:\python-myself\python_web\GMquery_flask\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
