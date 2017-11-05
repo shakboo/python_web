@@ -1,0 +1,33 @@
+{% load static %}
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>H35投票网站</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/styles.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/responsive-nav.css' %}" />
+
+    <script src="responsive-nav.js"></script>
+  </head>
+  <body>
+
+    <div role="navigation" id="nav">
+      <ul>
+        <li class="active"><a href="#main">主页</a></li>
+        <li><a href="#">发起投票</a></li>
+        <li><a href="#">未参与的投票</a></li>
+        <li><a href="#">已结束的投票</a></li>
+      </ul>
+    </div>
+
+    {% block content %}{% endblock %}
+
+
+
+    <script>
+      var navigation = responsiveNav("#nav", {customToggle: "#toggle"});
+    </script>
+
+  </body>
+</html>

@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=E:\python-myself\python_web\new_vote_django\venv"
+set "VIRTUAL_ENV=D:\shakboo\python_web\new_vote_django\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"

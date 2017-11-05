@@ -10,7 +10,7 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return self.question_test
+        return self.question_text
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) #级联
