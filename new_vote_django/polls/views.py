@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from django.views import generic
-
+from django.contrib.auth import authenticate
 from .models import Choice, Question
 
 
@@ -35,7 +35,7 @@ def vote(request, question_id):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You didn't select a choice.",
+            'error_message': "你还没选择投票选项",
         })
     else:
         selected_choice.votes += 1
@@ -44,3 +44,4 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
