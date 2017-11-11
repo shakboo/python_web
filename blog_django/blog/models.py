@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 class Category(models.Model):
     """
@@ -69,3 +69,7 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    #生成与urls中正则表达式匹配的url,用于index跳转
+    def get_absolute_url(self):
+        return reverse('blog:detail',kwargs={'pk':self.pk})
