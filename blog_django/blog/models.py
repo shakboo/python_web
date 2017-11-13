@@ -73,3 +73,6 @@ class Post(models.Model):
     #生成与urls中正则表达式匹配的url,用于index跳转
     def get_absolute_url(self):
         return reverse('blog:detail',kwargs={'pk':self.pk})
+
+
+
