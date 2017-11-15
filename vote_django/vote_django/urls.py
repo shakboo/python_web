@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """vote_django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,9 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from vote import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^vote/', include('vote.urls')),
+    # 将auth应用中的urls模块包含进来
+    url(r'vote/',include('django.contrib.auth.urls')),
+    url(r'/', views.index, name='index'),
+
 ]
