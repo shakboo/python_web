@@ -6,37 +6,48 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>首页</title>
-    <link rel="stylesheet" href="https://unpkg.com/mobi.css/dist/mobi.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-<div class="flex-center">
+<div class="navbar navbar-inverse" role="navigation">
     <div class="container">
-        <div>
-            <h1 class="logo"><a href="{% url 'index' %}" style="text-decoration:none">H35投票</a></h1>
-            <br>
-            {% if user.is_authenticated %}
-            <p class="h4">你已登录，欢迎你：<a href="#">{{ user.username }}</a></p>
-            <button class="btn btn-default col-lg-2"><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a></button>
-            <button class="btn btn-default col-lg-2"><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></button>
-            <ul class="nav nav-pills flex-center">
-              <li class="unit text-center"><a href="{% url 'index' %}">首页</a></li>
-              <li class="unit text-center"><a href="#">发起投票</a></li>
-              <li class="unit text-center"><a href="#">参与投票</a></li>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" style="position:relative;top:15px">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">H35 投票平台</font></a></h1>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right navbar-brand">
+                <li><a href="{% url 'logout' %}?next={{ request.path }}"><span class="glyphicon glyphicon-hand-right"></span> 注销登录</a></li>
+                <li><a href="{% url 'password_change' %}?next={{ request.path }}"><span class="glyphicon glyphicon-hand-right"></span> 修改密码</a></li>
             </ul>
-
-            {% else %}
-                <p>你还没有登录，请
-                    <button class="btn btn-default"><a href="{% url 'login' %}?next={{ request.path }}">登录</a></button>
-                    <input type="hidden" name="next" value="{{ next }}"/>
-                    或者
-                    <button class="btn btn-default"><a href="{% url 'vote:register' %}">注册</a></button>
-                </p>
-            {% endif %}
         </div>
     </div>
 </div>
 
+{% if user.is_authenticated %}
+<p class="h4 text-center">你已登录，欢迎你：<a href="#">{{ user.username }}</a></p>
+
+<ul class="nav nav-tabs nav-justified">
+  <li class="unit text-center"><a href="{% url 'index' %}">首页</a></li>
+  <li class="unit text-center"><a href="#">发起投票</a></li>
+  <li class="unit text-center"><a href="#">参与投票</a></li>
+</ul>
+
+{% else %}
+    <p class="h4 text-center">你还没有登录，请
+        <button class="btn btn-default"><a href="{% url 'login' %}?next={{ request.path }}">登录</a></button>
+        <input type="hidden" name="next" value="{{ next }}"/>
+        或者
+        <button class="btn btn-default"><a href="{% url 'vote:register' %}">注册</a></button>
+    </p>
+{% endif %}
+
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
