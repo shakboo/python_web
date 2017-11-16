@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^vote/', include('vote.urls')),
     # 将auth应用中的urls模块包含进来
     url(r'vote/',include('django.contrib.auth.urls')),
-    url(r'/', views.index, name='index'),
-
+    url(r'^$', views.index, name='index'),
 ]
