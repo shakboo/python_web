@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm
+from .models import Question
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    question_list = Question.objects.all().order_by('-created_time')[:10]
+    return render(request, 'index.html',context={
+        'question_list' : question_list
+    })
 
 def register(request):
     # 从 get 或者 post 请求中获取 next 参数值
@@ -37,3 +41,7 @@ def register(request):
     # 如果用户通过表单提交注册信息，但是数据验证不合法，则渲染的是一个带有错误信息的表单
     # 将记录用户注册前页面的 redirect_to 传给模板，以维持 next 参数在整个注册流程中的传递
     return render(request, 'vote/register.html', context={'form': form, 'next' : redirect})
+
+def detail(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    return render(request,'vote/detail.html',context={'question':question })

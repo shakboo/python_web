@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -47,25 +46,7 @@
     </p>
 {% endif %}
 
-<table class="table table-striped">
-  <caption class="h4 text-center">最新投票</caption>
-  <thead>
-    <tr>
-      <th class="text-center">发起人</th>
-      <th class="text-center">发起时间</th>
-      <th class="text-center">标题</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for question in question_list %}
-    <tr>
-        <td class="text-center" width="20%">{{ question.author }}</td>
-        <td class="text-center" width="20%">{{ question.created_time }}</td>
-        <td class="text-center" width="60%"><a href="{{ question.get_absolute_url }}" style="text-decoration:none">{{ question.title }}</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block main %}{% endblock main %}
 
 
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
