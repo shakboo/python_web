@@ -2,15 +2,24 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm
+from .forms import RegisterForm,QuestionForm
 from .models import Question
 
 # Create your views here.
 
 def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = QuestionForm()
     return render(request, 'index.html',context={
-        'question_list' : question_list
+        'question_list' : question_list,
+        'form' : form
     })
 
 def register(request):
@@ -45,3 +54,6 @@ def register(request):
 def detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
     return render(request,'vote/detail.html',context={'question':question })
+
+
+
