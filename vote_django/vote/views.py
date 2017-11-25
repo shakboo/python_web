@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm,QuestionForm
+from .forms import RegisterForm,QuestionForm,ChoiceForm
 from .models import Question
 
 # Create your views here.
@@ -11,15 +11,24 @@ def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
     if request.method == 'POST':
         form = QuestionForm(request.POST)
+        form_Choice = ChoiceForm(request.POST)
+        if form.is_valid() and form_Choice.is_valid():
+            qform = form.save(commit=False)
+            qform.save()
+            cform = form_Choice.save(commit=False)
+            cform.question = qform
+            cform.save()
 
-        if form.is_valid():
-            form.save()
-
+            #重新渲染一份表单给用户
+            form = QuestionForm()
+            form_Choice = ChoiceForm()
     else:
         form = QuestionForm()
+        form_Choice = ChoiceForm()
     return render(request, 'index.html',context={
         'question_list' : question_list,
-        'form' : form
+        'form' : form,
+        'form_Choice' : form_Choice
     })
 
 def register(request):
@@ -43,7 +52,6 @@ def register(request):
     else:
         # 请求不是 POST，表明用户正在访问注册页面，展示一个空的注册表单给用户
         form = RegisterForm()
-
 
     # 渲染模板
     # 如果用户正在访问注册页面，则渲染的是一个空的注册表单

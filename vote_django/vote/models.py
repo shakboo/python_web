@@ -13,9 +13,9 @@ class User(AbstractUser):
 
 
 class Question(models.Model):
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User,verbose_name='发起人')
     created_time = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField('标题', max_length=50)
 
     def __unicode__(self):
         return self.title
@@ -23,11 +23,12 @@ class Question(models.Model):
     def get_absolute_url(self):
         return reverse('vote:detail', kwargs={'pk':self.pk})
 
+    #默认时间降序排列
     class Meta:
         ordering = ['-created_time']
 
 class Choice(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField('问题',max_length=200)
     votes = models.IntegerField(default=0)
 

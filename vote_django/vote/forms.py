@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import User,Question
-from django.forms import ModelForm,Textarea
+from .models import User,Question, Choice
+from django.forms import ModelForm
 
 class RegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -12,6 +12,11 @@ class QuestionForm(ModelForm):
     class Meta:
         model = Question
         fields = '__all__'
-        widgets = {
+        """widgets = {
             'title': Textarea(attrs={'cols': 80, 'rows': 5}),
-        }
+        }"""
+
+class ChoiceForm(ModelForm):
+    class Meta:
+        model = Choice
+        exclude = ['votes']

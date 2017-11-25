@@ -34,6 +34,8 @@
     {% endif %}
 </div>
 <br>
+
+
 <div class="posts">
     {% for post in posts %}
     <form class="post" method="post" action="{{ url_for('main.index') }}">
@@ -53,6 +55,23 @@
         {% endif %}
     {% endfor %}
 </div>
+
+<!--分页导航-->
+<ul class="pagination center-block" style="width:200px">
+    <li>
+        <a href="{% if pagination.has_prev %}{{url_for('.index',page=pagination.page-1)}}{% else %}#{% endif %}" >«</a>
+    </li>
+        {% for p in pagination.iter_pages() %}
+            <li>
+            <a href="{{ url_for('.index',page=p)}}">{{p}}</a>
+            </li>
+        {% endfor %}
+    <li>
+        <a href="{%if pagination.has_next %}{{url_for('.index',page=pagination.page+1)}}{% else %}#{% endif %}" >»</a>
+    </li>
+</ul>
+
+
 
 
 {% endblock %}

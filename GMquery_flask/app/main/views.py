@@ -8,6 +8,8 @@ from ..models import Post
 from .. import db
 from flask.ext.login import current_user
 
+POSTS_PER_PAGE = 10
+
 @main.route('/', methods = ['GET','POST'])
 def index():
     try:
@@ -30,8 +32,11 @@ def index():
         db.session.delete(delete_gm_find)
         return redirect(url_for('.index'))
 
-    posts = Post.query.order_by('gm').all()
-    return render_template('index.html', form=form1,posts = posts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by('gm').paginate(page,POSTS_PER_PAGE,False)
+    posts = pagination.items
+
+    return render_template('index.html', form=form1,posts = posts,pagination=pagination)
 
 
 

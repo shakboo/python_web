@@ -18,7 +18,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">H35 投票平台</font></a></h1>
+            <h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">投票平台</font></a></h1>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right navbar-brand">
@@ -48,11 +48,9 @@
             </div>
             <form class="form" action="{% url 'index' %}" method="post">
                 {% csrf_token %}
-                {% for field in form %}
-                {{ field.label_tag }}
-                {{ field }}
+                {{ form.as_p }}
+                {{ form_Choice.as_p }}
                 <br>
-                {% endfor %}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="submit" class="btn btn-primary">提交</button>
