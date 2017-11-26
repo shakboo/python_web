@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,reverse
 from .forms import RegisterForm,QuestionForm,ChoiceForm
 from .models import Question
 
@@ -11,24 +11,24 @@ def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
     if request.method == 'POST':
         form = QuestionForm(request.POST)
-        form_Choice = ChoiceForm(request.POST)
-        if form.is_valid() and form_Choice.is_valid():
+        #form_Choice = ChoiceForm(request.POST)
+        if form.is_valid():    #and form_Choice.is_valid()
             qform = form.save(commit=False)
             qform.save()
-            cform = form_Choice.save(commit=False)
-            cform.question = qform
-            cform.save()
+            #cform = form_Choice.save(commit=False)
+            #cform.question = qform
+            #cform.save()
 
-            #重新渲染一份表单给用户
-            form = QuestionForm()
-            form_Choice = ChoiceForm()
+            #清除提交的表单内容
+            return HttpResponseRedirect(reverse('index'))
+
     else:
         form = QuestionForm()
-        form_Choice = ChoiceForm()
+        #form_Choice = ChoiceForm()
     return render(request, 'index.html',context={
         'question_list' : question_list,
         'form' : form,
-        'form_Choice' : form_Choice
+        #'form_Choice' : form_Choice
     })
 
 def register(request):
@@ -61,7 +61,11 @@ def register(request):
 
 def detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    return render(request,'vote/detail.html',context={'question':question })
+    form = QuestionForm()
+    return render(request,'vote/detail.html',context={
+        'question':question,
+        'form' : form
+    })
 
 
 
