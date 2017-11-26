@@ -19,9 +19,15 @@ def index():
             return redirect(url_for('auth.login'))
     form1 = PostForm()
     if form1.validate_on_submit():
-
         post = Post(gm=form1.gm.data, info=form1.info.data)
         db.session.add(post)
+
+        #如果指令已存在就回滚操作，不然会报错
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            flash("该指令已存在！")
 
         return redirect(url_for('.index'))
 
