@@ -24,6 +24,9 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
+    def __repr__(self):
+        return '<User %r>' % self.username
+
     #支持密码散列
     @property
     def password(self):
