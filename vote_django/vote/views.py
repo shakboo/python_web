@@ -5,30 +5,34 @@ from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRed
 from .forms import RegisterForm,QuestionForm,ChoiceForm
 from .models import Question
 
-# Create your views here.
 
+#主界面视图函数
 def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
     if request.method == 'POST':
         form = QuestionForm(request.POST)
-        #form_Choice = ChoiceForm(request.POST)
-        if form.is_valid():    #and form_Choice.is_valid()
+        # 需要获取用户Choice输入数目和内容，并添加到数据库
+        Choice_list = request.POST.getlist("Choice_text",'')
+
+
+        if form.is_valid():
             qform = form.save(commit=False)
             qform.save()
-            #cform = form_Choice.save(commit=False)
-            #cform.question = qform
-            #cform.save()
+            for Choice in Choice_list:
+                choiceForm = ChoiceForm()
+                cform = choiceForm.save(commit=False)
+                cform.choice_text = Choice
+                cform.question = qform
+                cform.save()
 
             #清除提交的表单内容
             return HttpResponseRedirect(reverse('index'))
 
     else:
         form = QuestionForm()
-        #form_Choice = ChoiceForm()
     return render(request, 'index.html',context={
         'question_list' : question_list,
         'form' : form,
-        #'form_Choice' : form_Choice
     })
 
 def register(request):
@@ -39,6 +43,7 @@ def register(request):
     if request.method == 'POST':
         # request.POST 是一个类字典数据结构，记录了用户提交的注册信息
         form = RegisterForm(request.POST)
+
 
         # 验证数据合法性
         if form.is_valid():
@@ -59,12 +64,33 @@ def register(request):
     # 将记录用户注册前页面的 redirect_to 传给模板，以维持 next 参数在整个注册流程中的传递
     return render(request, 'vote/register.html', context={'form': form, 'next' : redirect})
 
+#处理detail界面的发起投票
 def detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    form = QuestionForm()
-    return render(request,'vote/detail.html',context={
-        'question':question,
-        'form' : form
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        # 需要获取用户Choice输入数目和内容，并添加到数据库
+        Choice_list = request.POST.getlist("Choice_text",'')
+
+
+        if form.is_valid():
+            qform = form.save(commit=False)
+            qform.save()
+            for Choice in Choice_list:
+                choiceForm = ChoiceForm()
+                cform = choiceForm.save(commit=False)
+                cform.choice_text = Choice
+                cform.question = qform
+                cform.save()
+
+            #清除提交的表单内容
+            return HttpResponseRedirect(reverse('index'))
+
+    else:
+        form = QuestionForm()
+    return render(request, 'vote\detail.html',context={
+        'question' : question,
+        'form' : form,
     })
 
 

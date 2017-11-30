@@ -24,7 +24,7 @@ function createChoiceBox(){
     ChoiceInput.className = "form-control";
     ChoiceInput.type = "text";
     ChoiceInput.placeholder = "请输入问题内容";
-    ChoiceInput.name = String(ChoiceNum.length+1);
+    ChoiceInput.name = "Choice_text";
     ChoiceBox.appendChild(ChoiceTitle);
     ChoiceBox.appendChild(ChoiceInput);
 
