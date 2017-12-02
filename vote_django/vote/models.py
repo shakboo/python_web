@@ -12,10 +12,18 @@ class User(AbstractUser):
         pass
 
 
+
 class Question(models.Model):
     author = models.ForeignKey(User,verbose_name='发起人')
     created_time = models.DateTimeField(auto_now_add=True)
     title = models.CharField('标题', max_length=50)
+
+    CHOOSE_BOX = (
+        (u'choose_vote',u'投票'),
+        (u'choose_qa',u'问答'),
+    )
+
+    choose = models.CharField('类型',max_length=15,choices=CHOOSE_BOX,default="投票")
 
     def __unicode__(self):
         return self.title
@@ -30,5 +38,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     choice_text = models.CharField('问题',max_length=200)
+
     votes = models.IntegerField(default=0)
+    who_votes = models.CharField(max_length=100,default="",blank=True)
 
