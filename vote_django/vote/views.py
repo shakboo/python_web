@@ -67,31 +67,13 @@ def register(request):
 #处理detail界面的发起投票
 def detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        # 需要获取用户Choice输入数目和内容，并添加到数据库
-        Choice_list = request.POST.getlist("Choice_text",'')
+    form = QuestionForm()
+    #处理投票结果
+    if request == 'POST':
+        pass
 
-
-        if form.is_valid():
-            qform = form.save(commit=False)
-            qform.save()
-            for Choice in Choice_list:
-                choiceForm = ChoiceForm()
-                cform = choiceForm.save(commit=False)
-                cform.choice_text = Choice
-                cform.question = qform
-                cform.save()
-
-            #清除提交的表单内容
-            return HttpResponseRedirect(reverse('index'))
-
-    else:
-        form = QuestionForm()
     return render(request, 'vote\detail.html',context={
         'question' : question,
         'form' : form,
     })
-
-
 
