@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
 
-<form action="vote:detail" method="post">
+<form action="{% url 'vote:detail' question.id %}" method="post">
     {% csrf_token %}
     <h3 class="text-center">{{ question.title }}</h3>
     <ul>
@@ -12,7 +12,7 @@
         <label><input type="checkbox" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
         <br>
     {% endfor %}
-        <input type="submit" value="确认投票">
+        <button type="submit">确认投票</button>
     </ul>
 </form>
 

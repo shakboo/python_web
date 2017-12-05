@@ -69,11 +69,26 @@ def detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
     form = QuestionForm()
     #处理投票结果
-    if request == 'POST':
-        pass
 
-    return render(request, 'vote\detail.html',context={
-        'question' : question,
-        'form' : form,
-    })
+    #获得用户选择的choice的ID
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except:
+        #当用户无任何选项提交时的处理
+        return render(request, 'vote\detail.html',context={
+            'question' : question,
+            'form' : form,
+        })
+
+    #投票成功时的处理
+    else:
+        selected_choice.votes += 1
+
+        #记录下选择此选项的用户
+        selected_choice.who_votes += str(question.author)
+        selected_choice.who_votes += "; "
+        selected_choice.save()
+        return HttpResponseRedirect(reverse('index'))
+
+
 

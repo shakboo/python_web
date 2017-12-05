@@ -17,6 +17,7 @@ class Question(models.Model):
     author = models.ForeignKey(User,verbose_name='发起人')
     created_time = models.DateTimeField(auto_now_add=True)
     title = models.CharField('标题', max_length=50)
+    #需要加一个标识来确认此用户已经投过票
 
     CHOOSE_BOX = (
         (u'choose_vote',u'投票'),
