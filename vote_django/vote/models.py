@@ -11,13 +11,12 @@ class User(AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
-
-
 class Question(models.Model):
     author = models.ForeignKey(User,verbose_name='发起人')
     created_time = models.DateTimeField(auto_now_add=True)
     title = models.CharField('标题', max_length=50)
     #需要加一个标识来确认此用户已经投过票
+    already_votes = models.CharField(max_length=1000,default="")
 
     CHOOSE_BOX = (
         (u'choose_vote',u'投票'),
@@ -41,5 +40,5 @@ class Choice(models.Model):
     choice_text = models.CharField('问题',max_length=200)
 
     votes = models.IntegerField(default=0)
-    who_votes = models.CharField(max_length=100,default="",blank=True)
+    who_votes = models.CharField(max_length=1000,default="",blank=True)
 

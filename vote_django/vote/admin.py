@@ -13,7 +13,7 @@ class ChoiceInline(admin.StackedInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['title','author','choose']}),
+        (None,               {'fields': ['title','author','choose','already_votes']}),
     ]
     inlines = [ChoiceInline]
 

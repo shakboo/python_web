@@ -3,17 +3,17 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,reverse
 from .forms import RegisterForm,QuestionForm,ChoiceForm
-from .models import Question
+from .models import Question,User
 
 
 #主界面视图函数
 def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
+
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         # 需要获取用户Choice输入数目和内容，并添加到数据库
         Choice_list = request.POST.getlist("Choice_text",'')
-
 
         if form.is_valid():
             qform = form.save(commit=False)
@@ -72,7 +72,9 @@ def detail(request, pk):
 
     #获得用户选择的choice的ID
     try:
+        #现在这里只能单选，多喧会有问题
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        #selected_choices = question.choice_set.getlist("choice")
     except:
         #当用户无任何选项提交时的处理
         return render(request, 'vote\detail.html',context={
@@ -82,12 +84,19 @@ def detail(request, pk):
 
     #投票成功时的处理
     else:
+
         selected_choice.votes += 1
 
         #记录下选择此选项的用户
         selected_choice.who_votes += str(question.author)
         selected_choice.who_votes += "; "
         selected_choice.save()
+
+        #记录下回答过该问题的用户
+        question.already_votes += str(request.user.username)
+        question.already_votes += "; "
+        question.save()
+
         return HttpResponseRedirect(reverse('index'))
 
 
