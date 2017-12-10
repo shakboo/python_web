@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,reverse
 from .forms import RegisterForm,QuestionForm,ChoiceForm
-from .models import Question,User
+from .models import Question
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 
 #主界面视图函数
@@ -98,6 +99,23 @@ def detail(request, pk):
         question.save()
 
         return HttpResponseRedirect(reverse('index'))
+
+def all(request):
+    question_list = Question.objects.all().order_by('-created_time')
+    form = QuestionForm()
+    #分页
+    paginator = Paginator(question_list,10,1)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
+    return render(request, 'vote/all.html',context={
+        'cus_list' : customer,
+        'form' : form,
+    })
 
 
 
