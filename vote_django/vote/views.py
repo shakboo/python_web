@@ -10,6 +10,18 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 #主界面视图函数
 def index(request):
     question_list = Question.objects.all().order_by('-created_time')[:10]
+    username = str(request.user.username)
+
+
+    al_vote_list = []
+    for question in question_list:
+        if question.already_votes.find(username) == -1:
+            al_vote_list.append(0)
+        else:
+            al_vote_list.append(1)
+
+    #该字典用来记录该问题下该用户的投票情况
+    question_list = zip(question_list,al_vote_list)
 
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -73,9 +85,10 @@ def detail(request, pk):
 
     #获得用户选择的choice的ID
     try:
-        #现在这里只能单选，多喧会有问题
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-        #selected_choices = question.choice_set.getlist("choice")
+        #加上这句是为了防止try被判定为true，应对无选项提交
+        prevent_jump = question.choice_set.get(pk=request.POST['choice'])
+
+        selected_choices = request.POST.getlist('choice')
     except:
         #当用户无任何选项提交时的处理
         return render(request, 'vote\detail.html',context={
@@ -85,26 +98,30 @@ def detail(request, pk):
 
     #投票成功时的处理
     else:
-
-        selected_choice.votes += 1
-
-        #记录下选择此选项的用户
-        selected_choice.who_votes += str(question.author)
-        selected_choice.who_votes += "; "
-        selected_choice.save()
+        for selected_choice_id in selected_choices:
+            selected_choice = question.choice_set.get(pk=selected_choice_id)
+            if selected_choice.who_votes.find(str(request.user.username)) == -1:
+                selected_choice.votes += 1
+                selected_choice.question = question
+                #记录下选择此选项的用户
+                selected_choice.who_votes += str(request.user.username)
+                selected_choice.who_votes += "; "
+                selected_choice.save()
 
         #记录下回答过该问题的用户
-        question.already_votes += str(request.user.username)
-        question.already_votes += "; "
-        question.save()
+        if question.already_votes.find(str(request.user.username)) == -1:
+            question.already_votes += str(request.user.username)
+            question.already_votes += "; "
+            question.save()
 
         return HttpResponseRedirect(reverse('index'))
 
 def all(request):
     question_list = Question.objects.all().order_by('-created_time')
+    username = str(request.user.username)
     form = QuestionForm()
     #分页
-    paginator = Paginator(question_list,10,1)
+    paginator = Paginator(question_list,10,0)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
@@ -112,8 +129,22 @@ def all(request):
         customer = paginator.page(1)
     except EmptyPage:
         customer = paginator.page(paginator.num_pages)
+
+    #返回该数据是为了用来方便记录页码
+    cus_list_page = customer
+
+    #同样确认该登录用户的投票状态
+    al_vote_list = []
+    for question in customer:
+        if question.already_votes.find(username) == -1:
+            al_vote_list.append(0)
+        else:
+            al_vote_list.append(1)
+    customer = zip(customer, al_vote_list)
+
     return render(request, 'vote/all.html',context={
         'cus_list' : customer,
+        'cus_list_page' : cus_list_page,
         'form' : form,
     })
 

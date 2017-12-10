@@ -12,9 +12,7 @@ class QuestionForm(ModelForm):
     class Meta:
         model = Question
         exclude = ['already_votes']
-        """widgets = {
-            'title': Textarea(attrs={'cols': 80, 'rows': 5}),
-        }"""
+
 
 class ChoiceForm(ModelForm):
     class Meta:

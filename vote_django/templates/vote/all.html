@@ -15,17 +15,17 @@
     </tr>
   </thead>
   <tbody>
-    {% for question in cus_list %}
+    {% for question,al_vote in cus_list %}
     <tr>
         <td class="text-center" width="20%">{{ question.author }}</td>
         <td class="text-center" width="20%">{{ question.created_time }}</td>
-
-        <!--<td class="text-center" width="50%"><a href="#" style="text-decoration:none">{{ question.title }}</a></td>
-        <td class="text-center" width="10%">已投票</td>-->
-
+        {% if al_vote == 1 %}
+        <td class="text-center" width="50%"><a href="#" style="text-decoration:none">{{ question.title }}</a></td>
+        <td class="text-center" width="10%">已投票</td>
+        {% else %}
         <td class="text-center" width="50%"><a href="{{ question.get_absolute_url }}" style="text-decoration:none">{{ question.title }}</a></td>
         <td class="text-center" width="10%">未投票</td>
-
+        {% endif %}
     </tr>
     {% endfor %}
   </tbody>
@@ -33,7 +33,7 @@
 
 <nav aria-label="Page navigation" class="text-center">
     <ul class="pagination">
-        {% if cus_list.has_previous %}
+        {% if cus_list_page.has_previous %}
         <li>
             <a href="?page={{ cus_list.previous_page_number }}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -41,15 +41,15 @@
         </li>
         {% endif %}
 
-        {% for pg in cus_list.paginator.page_range %}
-        {% if cus_list.number == pg %}
+        {% for pg in cus_list_page.paginator.page_range %}
+        {% if cus_list_page.number == pg %}
         <li class="active"><a href="?page={{ pg }}">{{ pg }}</a> </li>
         {% else %}
         <li><a href="?page={{ pg }}">{{ pg }}</a> </li>
         {% endif %}
         {% endfor %}
 
-        {% if cus_list.has_next %}
+        {% if cus_list_page.has_next %}
         <li>
             <a href="?page={{ cus_list.next_page_number }}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -60,10 +60,3 @@
 </nav>
 
 {% endblock %}
-
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="{% static "scripts/add_choice.js" %}" type="text/javascript"></script>
-
-</body>
-</html>
