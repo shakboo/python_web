@@ -2,7 +2,22 @@
 
 {% block main %}
 
-
-
+<table class="table table-striped">
+  <caption class="h4 text-center">投票结果</caption>
+  <thead>
+    <tr>
+      <th class="text-center">选项</th>
+      <th class="text-center">票数</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for choice in question.choice_set.all %}
+    <tr>
+        <td class="text-center" width="50%">{{ choice.choice_text }}</td>
+        <td class="text-center" width="50%">{{ choice.votes }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

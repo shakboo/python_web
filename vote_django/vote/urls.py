@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^question/(?P<pk>[0-9]+)/$', views.detail, name='detail'),
     url(r'^all/$', views.all,name='all'),
-    #url(r'result/(?P<pk>[0-9]+)/$', views.result, name='result'),
+    url(r'result/(?P<pk>[0-9]+)/$', views.result, name='result'),
 ]

@@ -33,8 +33,8 @@ class Question(models.Model):
         return reverse('vote:detail', kwargs={'pk':self.pk})
 
     #进行问卷结果详情页跳转
-    """def get_absolute_already_url(self):
-        return reverse('vote:result',kwargs={'pk':self.pk})"""
+    def get_absolute_already_url(self):
+        return reverse('vote:result',kwargs={'pk':self.pk})
 
     #默认时间降序排列
     class Meta:

@@ -148,5 +148,14 @@ def all(request):
         'form' : form,
     })
 
+#投票详情界面
+def result(request,pk):
+    question = get_object_or_404(Question, pk=pk)
+    form = QuestionForm()
+    return render(request, 'vote/result.html', context={
+        'question' : question,
+        'form' : form,
+    })
+
 
 

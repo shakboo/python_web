@@ -20,7 +20,7 @@
         <td class="text-center" width="20%">{{ question.author }}</td>
         <td class="text-center" width="20%">{{ question.created_time }}</td>
         {% if al_vote == 1 %}
-        <td class="text-center" width="50%"><a href="#" style="text-decoration:none">{{ question.title }}</a></td>
+        <td class="text-center" width="50%"><a href="{{ question.get_absolute_already_url }}" style="text-decoration:none">{{ question.title }}</a></td>
         <td class="text-center" width="10%">已投票</td>
         {% else %}
         <td class="text-center" width="50%"><a href="{{ question.get_absolute_url }}" style="text-decoration:none">{{ question.title }}</a></td>
