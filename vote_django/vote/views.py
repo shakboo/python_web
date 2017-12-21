@@ -101,18 +101,22 @@ def detail(request, pk):
         for selected_choice_id in selected_choices:
             selected_choice = question.choice_set.get(pk=selected_choice_id)
             if selected_choice.who_votes.find(str(request.user.username)) == -1:
-                selected_choice.votes += 1
-                selected_choice.question = question
-                #记录下选择此选项的用户
-                selected_choice.who_votes += str(request.user.username)
-                selected_choice.who_votes += "; "
-                selected_choice.save()
+                if question.choose == 'choose_vote':
+                    selected_choice.votes += 1
+                    selected_choice.question = question
+                    #记录下选择此选项的用户
+                    selected_choice.who_votes += str(request.user.username)
+                    selected_choice.who_votes += "; "
+                    selected_choice.save()
+                elif question.choose == 'choose_qa':
+                    pass
 
-        #记录下回答过该问题的用户
-        if question.already_votes.find(str(request.user.username)) == -1:
-            question.already_votes += str(request.user.username)
-            question.already_votes += "; "
-            question.save()
+            #记录下回答过该问题的用户
+            if question.already_votes.find(str(request.user.username)) == -1:
+                question.already_votes += str(request.user.username)
+                question.already_votes += "; "
+                question.save()
+
 
         return HttpResponseRedirect(reverse('index'))
 
@@ -156,6 +160,7 @@ def result(request,pk):
         'question' : question,
         'form' : form,
     })
+
 
 
 

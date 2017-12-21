@@ -28,13 +28,14 @@ class Question(models.Model):
     def __unicode__(self):
         return self.title
 
-    #进行问卷详情页跳转
+    #进行投票问卷详情页跳转
     def get_absolute_url(self):
         return reverse('vote:detail', kwargs={'pk':self.pk})
 
-    #进行问卷结果详情页跳转
+    #进行投票问卷结果详情页跳转
     def get_absolute_already_url(self):
         return reverse('vote:result',kwargs={'pk':self.pk})
+
 
     #默认时间降序排列
     class Meta:
