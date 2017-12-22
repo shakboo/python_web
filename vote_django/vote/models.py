@@ -45,6 +45,8 @@ class Choice(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     choice_text = models.CharField('问题',max_length=200)
 
+
+    choice_answer = models.CharField(max_length=400,default="")
     votes = models.IntegerField(default=0)
     who_votes = models.CharField(max_length=1000,default="",blank=True)
 

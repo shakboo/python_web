@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
+{% if question.choose == 'choose_vote' %}
 <table class="table table-striped">
   <caption class="h4 text-center">投票结果</caption>
   <thead>
@@ -12,12 +12,17 @@
   </thead>
   <tbody>
     {% for choice in question.choice_set.all %}
-    <tr>
-        <td class="text-center" width="50%">{{ choice.choice_text }}</td>
-        <td class="text-center" width="50%">{{ choice.votes }}</td>
-    </tr>
+      <tr>
+          <td class="text-center" width="50%">{{ choice.choice_text }}</td>
+          <td class="text-center" width="50%">{{ choice.votes }}</td>
+      </tr>
+
     {% endfor %}
   </tbody>
 </table>
+
+{% elif question.choose == 'choose_qa' %}
+<p>您已完成该问卷！</p>
+{% endif %}
 
 {% endblock %}

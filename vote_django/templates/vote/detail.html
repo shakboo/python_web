@@ -17,7 +17,8 @@
     {% elif question.choose == 'choose_qa' %}
         {% for choice in question.choice_set.all %}
             <p>{{ choice.choice_text }}</p>
-            <input type="text" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}">
+            <input type="text" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}" style="display:none">
+            <input type="text" name="{{ choice.id }}" placeholder="请输入">
             <br>
         {% endfor %}
         <button type="submit" class="btn btn-default">确认投票</button>

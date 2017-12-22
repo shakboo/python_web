@@ -109,7 +109,12 @@ def detail(request, pk):
                     selected_choice.who_votes += "; "
                     selected_choice.save()
                 elif question.choose == 'choose_qa':
-                    pass
+                    selected_choice.choice_answer += request.POST[str(selected_choice_id)] + "  --" + str(request.user.username)
+                    selected_choice.choice_answer += "\r\n"
+
+                    selected_choice.who_votes += str(request.user.username)
+                    selected_choice.who_votes += "; "
+                    selected_choice.save()
 
             #记录下回答过该问题的用户
             if question.already_votes.find(str(request.user.username)) == -1:
