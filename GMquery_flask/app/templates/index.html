@@ -28,11 +28,19 @@
 
 
 {# 主体渲染模板 #}
-<div>
-    {% if current_user.is_shakboo() %}
-        {{ wtf.quick_form(form) }}
-    {% endif %}
+{% if current_user.is_shakboo() %}
+<button class="btn btn-primary" data-toggle="modal" data-target="#addGM">添加指令</button>
+<br>
+<div class="modal fade" id="addGM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div style="margin:50px">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </div>
 </div>
+{% endif %}
 <br>
 
 

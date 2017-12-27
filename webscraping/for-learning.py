@@ -136,5 +136,5 @@ def get_links(html):
 
 
 if __name__ == '__main__':
-    link_crawler('http://study.163.com/', '/(index|view)', delay=0, num_retries=1, max_depth=1,
+    link_crawler('http://example.webscraping.com/index', '/(index|view)', delay=0, num_retries=1, max_depth=1,
                  user_agent='GoodCrawler')
