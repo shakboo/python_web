@@ -37,6 +37,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
 
+#查询操作先放在这里了
 @auth.route('/query', methods=['GET','POST'])
 def query():
     try:

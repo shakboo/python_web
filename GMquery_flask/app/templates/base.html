@@ -23,11 +23,15 @@
         </ul>
     </div>
 </div>
-
 {% endblock %}
+
 
 {% block content %}
 <div class="container">
+    <ul class="nav nav-tabs">
+      <li class="text-center" style="width:50%"><a href="{{ url_for('main.index') }}">指令查询</a></li>
+      <li class="text-center" style="width:50%"><a href="#">爬虫尝试</a></li>
+    </ul>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;;</button>
@@ -37,6 +41,8 @@
 
     {% block page_content %}{% endblock %}
 </div>
+
+
 
 {% block script %}{% endblock %}
 {% endblock %}

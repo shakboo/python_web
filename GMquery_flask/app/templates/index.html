@@ -43,7 +43,6 @@
 {% endif %}
 <br>
 
-
 <div class="posts">
     {% for post in posts %}
     <form class="post" method="post" action="{{ url_for('main.index') }}">
@@ -78,9 +77,6 @@
         <a href="{%if pagination.has_next %}{{url_for('.index',page=pagination.page+1)}}{% else %}#{% endif %}" >»</a>
     </li>
 </ul>
-
-
-
 
 {% endblock %}
 

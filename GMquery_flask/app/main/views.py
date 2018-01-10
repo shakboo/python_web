@@ -8,6 +8,7 @@ from ..models import Post
 from .. import db
 from flask.ext.login import current_user
 
+#指令查询模块分页
 POSTS_PER_PAGE = 10
 
 @main.route('/', methods = ['GET','POST'])
