@@ -16,7 +16,8 @@
         </ul>
     {% elif question.choose == 'choose_qa' %}
         {% for choice in question.choice_set.all %}
-            <p>{{ choice.choice_text }}</p>
+            <p class="h4">{{ choice.choice_text }}</p>
+            {# 该条隐藏的input是为了给后台定位 #}
             <input type="text" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}" style="display:none">
             <input type="text" name="{{ choice.id }}" placeholder="请输入">
             <br>

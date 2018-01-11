@@ -22,7 +22,9 @@
 </table>
 
 {% elif question.choose == 'choose_qa' %}
-<p>您已完成该问卷！</p>
+<br>
+<p class="text-center h2">您已完成该问卷！</p>
+<p class="text-center"><a type="button" class="btn btn-default" href="{% url 'index' %}">点击返回</a></p>
 {% endif %}
 
 {% endblock %}
