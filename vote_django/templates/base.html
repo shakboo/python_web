@@ -47,7 +47,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">填写投票内容</h4>
             </div>
-            <form class="form" action="{% url 'index' %}" method="post">
+            <form class="form" action="{% url 'index' %}" method="post" style="margin:5%">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <br>

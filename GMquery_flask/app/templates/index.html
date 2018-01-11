@@ -7,14 +7,14 @@
 
 <div class="page-header">
 
-        <div class="col-lg-3 pull-right col-sm-5 col-md-4 col-xs-6">
-                <form class="input-group" method="post" action="{{ url_for('auth.query') }}">
-                    <input type="text" class="form-control" id="user-input" name="userInput">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default btn-query" type="submit"><a style="text-decoration:none"> 查询</a></button>
-                    </span>
-                </form><!-- /input-group -->
-        </div><!-- /.col-lg-6 -->
+    <div class="col-lg-3 pull-right col-sm-5 col-md-4 col-xs-6">
+            <form class="input-group" method="post" action="{{ url_for('auth.query') }}">
+                <input type="text" class="form-control" id="user-input" name="userInput">
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-query" type="submit"><a style="text-decoration:none"> 查询</a></button>
+                </span>
+            </form><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
 
     <h3>Hello,
         {% if current_user.is_authenticated %}
