@@ -11,7 +11,7 @@ class RegisterForm(UserCreationForm):
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
-        exclude = ['already_votes']
+        exclude = ['author','already_votes']
 
 
 class ChoiceForm(ModelForm):

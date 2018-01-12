@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,reverse
 from .forms import RegisterForm,QuestionForm,ChoiceForm
-from .models import Question
+from .models import Question,User
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 
@@ -30,6 +30,7 @@ def index(request):
 
         if form.is_valid():
             qform = form.save(commit=False)
+            qform.author = get_object_or_404(User,username=username)
             qform.save()
             for Choice in Choice_list:
                 choiceForm = ChoiceForm()
