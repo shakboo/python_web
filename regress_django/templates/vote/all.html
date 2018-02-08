@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block main %}
+<table class="table table-striped">
+  <caption class="h4 text-center">全部投票</caption>
+  <thead>
+    <tr>
+      <th class="text-center">发起人</th>
+      <th class="text-center">发起时间</th>
+      <th class="text-center">标题</th>
+      <th class="text-center">状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for question,al_vote in cus_list %}
+    <tr>
+        <td class="text-center" width="20%">{{ question.author }}</td>
+        <td class="text-center" width="20%">{{ question.created_time }}</td>
+        {% if al_vote == 1 %}
+        <td class="text-center" width="50%"><a href="{{ question.get_absolute_already_url }}" style="text-decoration:none">{{ question.title }}</a></td>
+        <td class="text-center" width="10%">已投票</td>
+        {% else %}
+        <td class="text-center" width="50%"><a href="{{ question.get_absolute_url }}" style="text-decoration:none">{{ question.title }}</a></td>
+        <td class="text-center" width="10%">未投票</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{# 页码 #}
+<nav aria-label="Page navigation" class="text-center">
+    <ul class="pagination">
+        {% if cus_list_page.has_previous %}
+        <li>
+            <a href="?page={{ cus_list.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% for pg in cus_list_page.paginator.page_range %}
+        {% if cus_list_page.number == pg %}
+        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a> </li>
+        {% else %}
+        <li><a href="?page={{ pg }}">{{ pg }}</a> </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if cus_list_page.has_next %}
+        <li>
+            <a href="?page={{ cus_list.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

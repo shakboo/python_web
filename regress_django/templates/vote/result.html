@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% if question.choose == 'choose_vote' %}
+<table class="table table-striped">
+  <caption class="h4 text-center">投票结果</caption>
+  <thead>
+    <tr>
+      <th class="text-center">选项</th>
+      <th class="text-center">票数</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for choice in question.choice_set.all %}
+      <tr>
+          <td class="text-center" width="50%">{{ choice.choice_text }}</td>
+          <td class="text-center" width="50%">{{ choice.votes }}</td>
+      </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% elif question.choose == 'choose_qa' %}
+<br>
+<p class="text-center h2">您已完成该问卷！</p>
+<p class="text-center"><a type="button" class="btn btn-default" href="{% url 'index' %}">点击返回</a></p>
+{% endif %}
+
+{% endblock %}
