@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-"""vote_django URL Configuration
+"""regress_django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -16,12 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from vote import views
+from regress import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^vote/', include('vote.urls')),
-    # 将auth应用中的urls模块包含进来
-    url(r'vote/',include('django.contrib.auth.urls')),
-    url(r'^$', views.index, name='index'),
+    url(r'^regress/', include('regress.urls')),
+    url(r'^regress/', include('django.contrib.auth.urls')),
+    url(r'^$', views.index, name='index')
 ]
