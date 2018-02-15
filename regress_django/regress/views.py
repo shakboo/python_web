@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect
-from .models import User
+from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponseRedirect
+from .models import User, Version, Context
 from .forms import RegisterForm
 
 # Create your views here.
@@ -28,4 +28,20 @@ def register(request):
     })
 
 def index(request):
-    return render(request, 'index.html')
+    versionList = Version.objects.all().order_by('-version')
+    if request.method == 'POST':
+        version = request.POST.get('version')
+        for i in range(len(versionList)):
+            if unicode(versionList[i]) == version:
+                contextList = Context.objects.filter(version=versionList[i])
+                versionNow = versionList[i]
+                break
+    else:
+        versionNow = versionList[0] if versionList else None
+        contextList = Context.objects.filter(version=versionNow)
+
+    return render(request, 'index.html',context={
+        'versionList' : versionList,
+        'contextList' : contextList,
+        'versionNow' : versionNow,
+    })

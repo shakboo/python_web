@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^regress/', include('regress.urls')),
     url(r'^regress/', include('django.contrib.auth.urls')),
-    url(r'^$', views.index, name='index')
+    url(r'^$', views.index, name='index'),
 ]
