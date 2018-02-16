@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block main %}
+{% if contextList %}
+<table class="table table-striped">
+  <caption class="h4 text-center">{{ versionNow.version|date:"Y-m-d" }}版本</caption>
+  <thead>
+    <tr>
+      <th class="text-center">编号</th>
+      <th class="text-center">范围</th>
+      <th class="text-center">内容</th>
+      <th class="text-center">相关补充</th>
+      <th class="text-center">状态</th>
+      <th class="text-center">确认人</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for context in contextList %}
+    <tr>
+      <td class="text-center" width="10%">{{ forloop.counter }}</td>
+      <td class="text-center" width="10%">{{ context.rangen }}</td>
+      <td class="text-center" width="40%">{{ context.title }}</td>
+      <td class="text-center" width="10%">
+        <a href="#" data-toggle="modal" data-target="#detail{{ forloop.counter }}"><span class="glyphicon glyphicon-search"></span></a>
+      </td>
+      {% if context.status %}
+      <td class="text-center" width="15%">已结束</td>
+      {% else %}
+      <td class="text-center" width="15%">进行中</td>
+      {% endif %}
+      {% if context.handler %}
+      <td class="text-center" width="15%">{{ context.handler }}</td>
+      {% else %}
+      <td class="text-center" width="15%"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
+      {% endif %}
+    </tr>
+    <div class="modal fade" id="detail{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">补充内容</h4>
+          </div>
+          {% if context.detail %}
+          <div class="modal-body">{{ context.detail }}</div>
+          {% else %}
+          <div class="modal-body">没有补充</div>
+          {% endif %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class=text-center>该版本还没有回归内容，请联系管理员添加Orz</p>
+{% endif %}
+
+{% endblock %}
