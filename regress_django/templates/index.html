@@ -2,75 +2,27 @@
 {% load staticfiles %}
 
 {% block main %}
-{% if contextList and versionList %}
-
-<form role="form" class="form-inline text-center" action="{% url 'index' %}" method="post">
-  {% csrf_token %}
-  <div class="form-group">
-    <label class="sr-only" for="name">周版本</label>
-    <select class="form-control" name="version" id="versionSelect">
-      {% for version in versionList %}
-      {% ifequal versionNow.version version.version %}
-      <option selected id="focus">{{ version.version|date:"Y-m-d" }}</option>
-      {% else %}
-      <option>{{ version.version|date:"Y-m-d" }}</option>
-      {% endifequal %}
-      {% endfor %}
-    </select>
-  </div>
-  <button type="submit" class="btn btn-default">查询</button>
-</form>
-
-
+{% if versionList %}
 <table class="table table-striped">
-  <caption class="h4 text-center">{{ versionNow.version|date:"Y-m-d" }}版本</caption>
+  <caption class="h4 text-center">回归版本列表</caption>
   <thead>
     <tr>
-      <th class="text-center">编号</th>
-      <th class="text-center">范围</th>
-      <th class="text-center">内容</th>
-      <th class="text-center">相关补充</th>
-      <th class="text-center">状态</th>
-      <th class="text-center">确认人</th>
+      <th class="text-center">版本</th>
+      <th class="text-center">值周人</th>
+      <th class="text-center">备注</th>
     </tr>
   </thead>
   <tbody>
-    {% for context in contextList %}
+    {% for version in versionList %}
     <tr>
-        <td class="text-center" width="10%">{{ forloop.counter }}</td>
-        <td class="text-center" width="10%">{{ context.rangen }}</td>
-        <td class="text-center" width="40%">{{ context.title }}</td>
-        <td class="text-center" width="10%">
-          <a href="#" data-toggle="modal" data-target='#detail{{ forloop.counter }}'><span class="glyphicon glyphicon-search"></span></a>
-        </td>
-        {% if context.status %}
-        <td class="text-center" width="15%">已结束</td>
-        {% else %}
-        <td class="text-center" width="15%">进行中</td>
-        {% endif %}
-        {% if context.handler %}
-        <td class="text-center" width="15%">{{ context.handler }}</td>
-        {% else %}
-        <td class="text-center" width="15%"><a href="#" class="btn btn-warning">确认</a>
-        {% endif %}
+      <td class="text-center" width="34%"><a href="{{ version.get_recent_version }}" style="text-decoration:none">{{ version.version|date:"Y-m-d" }}</a></td>
+      <td class="text-center" width="33%">{{ version.leader }}</td>
+      <td class="text-center" width="33%">{{ version.remark }}</td>
     </tr>
-    <div class="modal fade" id="detail{{ forloop.counter }}" tabindex='-1' role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">补充内容</h4>
-          </div>
-          <div class="modal-body">{{ context.detail }}</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div>
-      </div>
-    </div>
     {% endfor %}
   </tbody>
 </table>
+
 
 
 {% else %}
