@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponseRedirect
 from .models import User, Version, Context
 from .forms import RegisterForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -48,6 +49,8 @@ def detail(request, version):
 def pot(request, pk):
     context = get_object_or_404(Context, pk=pk)
     context.status = True
+    msg_text = '认领成功!' if context.handler == '' else '已经有人认领啦!'
     context.handler = str(request.user.nickname) if context.handler == '' else context.handler
+    messages.add_message(request, messages.INFO, msg_text) 
     context.save()
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version}))
