@@ -16,7 +16,7 @@ class ContextInline(admin.StackedInline):
 
 class VersionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['version', 'leader', 'remark']}),
+        (None, {'fields': ['version']}),
     ]
     inlines = [ContextInline]
 

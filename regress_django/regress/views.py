@@ -29,25 +29,19 @@ def register(request):
 
 def index(request):
     versionList = Version.objects.all().order_by('-version')
-    return render(request, 'index.html', context={
-        'versionList' : versionList,
-    })
+    if request.method == 'POST':
+        version = request.POST.get('version')
+        for i in range(len(versionList)):
+            if unicode(versionList[i]) == version:
+                contextList = Context.objects.filter(version=versionList[i])
+                versionNow = versionList[i]
+                break
+    else:
+        versionNow = versionList[0] if versionList else None
+        contextList = Context.objects.filter(version=versionNow)
 
-def detail(request, version):
-    versionList = Version.objects.all().order_by('-version')
-    for i in range(len(versionList)):
-        if unicode(versionList[i]) == version:
-            contextList = Context.objects.filter(version=versionList[i])
-            versionNow = versionList[i]
-            break
-    return render(request, 'regress/detail.html', context={
+    return render(request, 'index.html',context={
+        'versionList' : versionList,
         'contextList' : contextList,
         'versionNow' : versionNow,
     })
-
-def pot(request, pk):
-    context = get_object_or_404(Context, pk=pk)
-    context.status = True
-    context.handler = str(request.user.nickname) if context.handler == '' else context.handler
-    context.save()
-    return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version}))
