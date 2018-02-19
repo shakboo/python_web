@@ -22,7 +22,33 @@
     {% endfor %}
   </tbody>
 </table>
+<nav aria-label="Page navigation" class="text-center">
+    <ul class="pagination">
+        {% if customer.has_previous %}
+        <li>
+            <a href="?page={{ customer.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
 
+        {% for pg in customer.page_range %}
+        {% if customer.number == pg %}
+        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a> </li>
+        {% else %}
+        <li><a href="?page={{ pg }}">{{ pg }}</a> </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if customer.has_next %}
+        <li>
+            <a href="?page={{ customer.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 
 
 {% else %}

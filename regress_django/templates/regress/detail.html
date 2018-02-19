@@ -40,7 +40,7 @@
       {% if context.handler %}
       <td class="text-center" width="15%">{{ context.handler }}</td>
       {% else %}
-      <td class="text-center" width="15%"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
+      <td class="text-center" width="15%" id="forAlert"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
       {% endif %}
     </tr>
     <div class="modal fade" id="detail{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

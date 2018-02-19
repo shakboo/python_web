@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpR
 from .models import User, Version, Context
 from .forms import RegisterForm
 from django.contrib import messages
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 # Create your views here.
 
@@ -30,8 +31,17 @@ def register(request):
 
 def index(request):
     versionList = Version.objects.all().order_by('-version')
+    paginator = Paginator(versionList,15,0)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
     return render(request, 'index.html', context={
         'versionList' : versionList,
+        'customer' : customer,
     })
 
 def detail(request, version):
@@ -48,9 +58,9 @@ def detail(request, version):
 
 def pot(request, pk):
     context = get_object_or_404(Context, pk=pk)
-    context.status = True
     msg_text = '认领成功!' if context.handler == '' else '已经有人认领啦!'
+    messages.add_message(request, messages.INFO, msg_text)
+    context.status = True
     context.handler = str(request.user.nickname) if context.handler == '' else context.handler
-    messages.add_message(request, messages.INFO, msg_text) 
     context.save()
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version}))
