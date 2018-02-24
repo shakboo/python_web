@@ -58,9 +58,12 @@ def detail(request, version):
 
 def pot(request, pk):
     context = get_object_or_404(Context, pk=pk)
-    msg_text = '认领成功!' if context.handler == '' else '已经有人认领啦!'
+    if context.handler == '':
+        msg_text = '认领成功!'
+        context.status = True
+        context.handler = str(request.user.nickname)
+        context.save()
+    else:
+        msg_text = '已经有人认领了!'
     messages.add_message(request, messages.INFO, msg_text)
-    context.status = True
-    context.handler = str(request.user.nickname) if context.handler == '' else context.handler
-    context.save()
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version}))
