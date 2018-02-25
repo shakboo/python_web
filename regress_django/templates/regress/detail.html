@@ -11,11 +11,12 @@
 {% endfor %}
 {% endif %}
 {% if contextList %}
-<table class="table table-striped">
+<table class="table table-striped display" id="table_id_detail">
   <caption class="h4 text-center">{{ versionNow.version|date:"Y-m-d" }}版本</caption>
   <thead>
     <tr>
       <th class="text-center">编号</th>
+      <th class="text-center">第几次回归</th>
       <th class="text-center">范围</th>
       <th class="text-center">内容</th>
       <th class="text-center">相关补充</th>
@@ -27,20 +28,21 @@
     {% for context in contextList %}
     <tr>
       <td class="text-center" width="10%">{{ forloop.counter }}</td>
+      <td class="text-center" width="10%">{{ context.count }}</td>
       <td class="text-center" width="10%">{{ context.rangen }}</td>
       <td class="text-center" width="40%">{{ context.title }}</td>
       <td class="text-center" width="10%">
         <a href="#" data-toggle="modal" data-target="#detail{{ forloop.counter }}"><span class="glyphicon glyphicon-search"></span></a>
       </td>
       {% if context.status %}
-      <td class="text-center" width="15%">已结束</td>
+      <td class="text-center" width="10%">已结束</td>
       {% else %}
-      <td class="text-center" width="15%">进行中</td>
+      <td class="text-center" width="10%">进行中</td>
       {% endif %}
       {% if context.handler %}
-      <td class="text-center" width="15%">{{ context.handler }}</td>
+      <td class="text-center" width="10%">{{ context.handler }}</td>
       {% else %}
-      <td class="text-center" width="15%" id="forAlert"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
+      <td class="text-center" width="10%" id="forAlert"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
       {% endif %}
     </tr>
     <div class="modal fade" id="detail{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -68,4 +70,25 @@
 <p class=text-center>该版本还没有回归内容，请联系管理员添加Orz</p>
 {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+$(function(){
+    $("#forAlert").bind('click', function () {
+        if(confirm("确认要接锅吗(╯‵□′)╯︵┻━┻")){
+            return true;
+        }else{
+            return false;
+        };
+    });
+});
+
+$('#table_id_detail').DataTable({
+    language: {
+      'sSearch' : '搜索：',
+    },
+    paging : false,
+})
+</script>
 {% endblock %}

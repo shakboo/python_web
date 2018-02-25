@@ -29,7 +29,7 @@ class Version(models.Model):
 
 class Context(models.Model):
     version = models.ForeignKey(Version)
-    count = models.CharField(u'第几次回归', choices=[(u'第一次回归',u'第一次回归'),(u'第二次回归',u'第二次回归'),], default='第一次回归',max_length=10)
+    count = models.CharField(u'第几次回归', choices=[(u'第一次',u'第一次'),(u'第二次',u'第二次'),], default='第一次',max_length=10)
     rangen = models.CharField(u'范围', choices=[(u'灰度',u'灰度'),(u'非灰度',u'非灰度'),(u'小组',u'小组'),], default=u'灰度',max_length=10)
     title = models.TextField(u'内容', max_length=200)
     detail = models.TextField(u'补充说明', max_length=200, blank=True)

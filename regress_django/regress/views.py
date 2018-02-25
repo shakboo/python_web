@@ -67,3 +67,12 @@ def pot(request, pk):
         msg_text = '已经有人认领了!'
     messages.add_message(request, messages.INFO, msg_text)
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version}))
+
+def popo(request, pk):
+    from popo import sendMsg
+    version = get_object_or_404(Version, pk=pk)
+    version = version.version
+    url = "127.0.0.1/regress/detail/" + version  #先用localtion代替
+    message =  '请各位前往'+url+"查看"+version+"版本的回归内容。"
+    sendMsg('wb.zhouxiebo@mesg.corp.netease.com',message)
+    return HttpResponseRedirect('index.html')

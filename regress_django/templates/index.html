@@ -3,25 +3,28 @@
 
 {% block main %}
 {% if versionList %}
-<table class="table table-striped">
+<table class="table table-striped display" id="table_id_index">
   <caption class="h4 text-center">回归版本列表</caption>
   <thead>
     <tr>
       <th class="text-center">版本</th>
       <th class="text-center">值周人</th>
       <th class="text-center">备注</th>
+      <th class="text-center">POPO提醒</th>
     </tr>
   </thead>
   <tbody>
     {% for version in versionList %}
     <tr>
-      <td class="text-center" width="34%"><a href="{{ version.get_recent_version }}" style="text-decoration:none">{{ version.version|date:"Y-m-d" }}</a></td>
-      <td class="text-center" width="33%">{{ version.leader }}</td>
-      <td class="text-center" width="33%">{{ version.remark }}</td>
+      <td class="text-center" width="30%"><a href="{{ version.get_recent_version }}" style="text-decoration:none">{{ version.version|date:"Y-m-d" }}</a></td>
+      <td class="text-center" width="25%">{{ version.leader }}</td>
+      <td class="text-center" width="25%">{{ version.remark }}</td>
+      <td class="text-center" width="20%"><a href="{% url 'regress:popo' version.id %}" id="popoSend"><!--<img src="http://hz.oa.netease.com/oaOptimize/images/icons/popo.png">-->我是占位的</a></td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+<!-- 这个分页好像暂时不需要了,DataTable有自带的
 <nav aria-label="Page navigation" class="text-center">
     <ul class="pagination">
         {% if customer.has_previous %}
@@ -48,10 +51,30 @@
         </li>
         {% endif %}
     </ul>
-</nav>
+</nav>-->
 
 
 {% else %}
 <p class="text-center">还没有回归列表，联系管理员添加Orz</p>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function(){
+    $("#popoSend").bind('click', function () {
+        if(confirm("确定要劳驾大元芳Sama嘛(*≧▽≦*)")==true){
+            return true;
+        }else{
+            return false;
+        };
+    });
+});
+
+$('#table_id_index').DataTable({
+    language:{
+        'sSearch' : '搜索：',
+    }
+});
+</script>
 {% endblock %}
