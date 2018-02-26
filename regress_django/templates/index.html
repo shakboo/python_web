@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}<title>首页</title>{% endblock %}
+
 {% block main %}
 {% if versionList %}
 <table class="table table-striped display" id="table_id_index">
@@ -19,7 +21,7 @@
       <td class="text-center" width="30%"><a href="{{ version.get_recent_version }}" style="text-decoration:none">{{ version.version|date:"Y-m-d" }}</a></td>
       <td class="text-center" width="25%">{{ version.leader }}</td>
       <td class="text-center" width="25%">{{ version.remark }}</td>
-      <td class="text-center" width="20%"><a href="{% url 'regress:popo' version.id %}" id="popoSend"><!--<img src="http://hz.oa.netease.com/oaOptimize/images/icons/popo.png">-->我是占位的</a></td>
+      <td class="text-center" width="20%"><a href="{% url 'regress:popo' version.id %}" id="popoSend"><img src="http://hz.oa.netease.com/oaOptimize/images/icons/popo.png"><!--我是占位的--></a></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -74,7 +76,8 @@ $(function(){
 $('#table_id_index').DataTable({
     language:{
         'sSearch' : '搜索：',
-    }
+    },
+    bSort : false,
 });
 </script>
 {% endblock %}

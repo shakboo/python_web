@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}<title>{{ versionNow.version|date:"Y-m-d" }}回归详情</title>{% endblock %}
+
 {% block main %}
 {% if messages %}
 {% for message in messages %}
@@ -18,7 +20,7 @@
       <th class="text-center">编号</th>
       <th class="text-center">第几次回归</th>
       <th class="text-center">范围</th>
-      <th class="text-center">内容</th>
+      <th class="text-center not-center">内容</th>
       <th class="text-center">相关补充</th>
       <th class="text-center">状态</th>
       <th class="text-center">确认人</th>
@@ -30,7 +32,7 @@
       <td class="text-center" width="10%">{{ forloop.counter }}</td>
       <td class="text-center" width="10%">{{ context.count }}</td>
       <td class="text-center" width="10%">{{ context.rangen }}</td>
-      <td class="text-center" width="40%">{{ context.title }}</td>
+      <td class="not-center" width="40%"><pre>{{ context.title }}</pre></td>
       <td class="text-center" width="10%">
         <a href="#" data-toggle="modal" data-target="#detail{{ forloop.counter }}"><span class="glyphicon glyphicon-search"></span></a>
       </td>
@@ -53,7 +55,7 @@
             <h4 class="modal-title" id="myModalLabel">补充内容</h4>
           </div>
           {% if context.detail %}
-          <div class="modal-body">{{ context.detail }}</div>
+          <div class="modal-body"><pre>{{ context.detail }}</pre></div>
           {% else %}
           <div class="modal-body">没有补充</div>
           {% endif %}
@@ -89,6 +91,7 @@ $('#table_id_detail').DataTable({
       'sSearch' : '搜索：',
     },
     paging : false,
+    bSort : false,
 })
 </script>
 {% endblock %}
