@@ -76,5 +76,5 @@ def popo(request, pk):
     version = version.strftime('%Y-%m-%d')
     url = "http://10.240.108.40/regress/detail/" + version  #先用localhost代替
     message =  '请各位前往'+url+"查看"+version+"版本的回归内容。"
-    sendMsg('wb.zhouxiebo@mesg.corp.netease.com',message)
+    #sendMsg('wb.zhouxiebo@mesg.corp.netease.com',message)
     return HttpResponseRedirect(reverse("index"))

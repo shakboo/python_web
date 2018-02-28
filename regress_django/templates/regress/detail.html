@@ -75,10 +75,10 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript">
+<script>
 $(function(){
     $("#forAlert").bind('click', function () {
-        if(confirm("确认要接锅吗(╯‵□′)╯︵┻━┻")){
+        if(confirm("确认要接锅吗(╯‵□′)╯︵┻━┻")==true){
             return true;
         }else{
             return false;
