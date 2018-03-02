@@ -35,6 +35,7 @@ class Context(models.Model):
     detail = models.TextField(u'补充说明', max_length=200, blank=True)
     status = models.BooleanField(u'状态', default=False)
     handler = models.CharField(u'确认人', max_length=10,default='')
+    participant = models.CharField(u'参与者',max_length=100,default='')
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -42,3 +43,6 @@ class Context(models.Model):
 
     def get_recent_id(self):
         return reverse('regress:pot', kwargs={'pk':self.pk})
+
+    def get_recent_id_party(self):
+        return reverse('regress:party', kwargs={'pk':self.pk})

@@ -24,13 +24,14 @@
       <th class="text-center">相关补充</th>
       <th class="text-center">状态</th>
       <th class="text-center">确认人</th>
+      <th class="text-center">参与者</th>
     </tr>
   </thead>
   <tbody>
     {% for context in contextList %}
     <tr>
-      <td class="text-center" width="10%">{{ forloop.counter }}</td>
-      <td class="text-center" width="10%">{{ context.count }}</td>
+      <td class="text-center" width="5%">{{ forloop.counter }}</td>
+      <td class="text-center" width="5%">{{ context.count }}</td>
       <td class="text-center" width="10%">{{ context.rangen }}</td>
       <td class="not-center" width="40%"><pre>{{ context.title }}</pre></td>
       <td class="text-center" width="10%">
@@ -46,6 +47,7 @@
       {% else %}
       <td class="text-center" width="10%" id="forAlert"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
       {% endif %}
+      <td class="text-center" width="10%"><a href="{{ context.get_recent_id_party }}" class="btn btn-default">我已参与</a></td>
     </tr>
     <div class="modal fade" id="detail{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
