@@ -9,6 +9,7 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 # Create your views here.
 
+
 def register(request):
     redirect_to = request.POST.get('next', request.GET.get('next', ''))
     if request.method == 'POST':
@@ -48,11 +49,18 @@ def detail(request, version):
     versionList = Version.objects.all().order_by('-version')
     for i in range(len(versionList)):
         if unicode(versionList[i]) == version:
-            contextList = Context.objects.filter(version=versionList[i])
+            contextList = Context.objects.filter(version=versionList[i]).order_by('created_time')
             versionNow = versionList[i]
             break
+    hasParty = []
+    for context in contextList:
+        if context.partyusername.find(str(request.user.username)) == -1:
+            hasParty.append(0)
+        else:
+            hasParty.append(1)
+    contextDict = zip(contextList,hasParty)
     return render(request, 'regress/detail.html', context={
-        'contextList' : contextList,
+        'contextDict' : contextDict,
         'versionNow' : versionNow,
     })
 
@@ -81,10 +89,11 @@ def popo(request, pk):
 
 def party(request, pk):
     context = get_object_or_404(Context, pk=pk)
-    if context.participant.find(str(request.user.nickname)) == -1:
+    if context.partyusername.find(str(request.user.username)) == -1:
         context.participant += str(request.user.nickname) + " "
+        context.partyusername += str(request.user.username)+";"
         context.save()
-        message.add_message(request, message.SUCCESS, '成功参与！')
+        messages.add_message(request, messages.SUCCESS, '成功参与！')
     else:
-        message.add_message(request, message.WARNING, '您已经参与此项回归内容了！')
+        messages.add_message(request, messages.WARNING, '您已经参与此项回归内容了！')
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version})) 

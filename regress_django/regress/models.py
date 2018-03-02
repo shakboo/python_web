@@ -11,7 +11,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 class User(AbstractUser):
-    nickname = models.CharField(max_length=50, blank=True)
+    nickname = models.CharField(u'姓名', max_length=50, blank=True)
 
     class Meta(AbstractUser.Meta):
         pass
@@ -36,6 +36,7 @@ class Context(models.Model):
     status = models.BooleanField(u'状态', default=False)
     handler = models.CharField(u'确认人', max_length=10,default='')
     participant = models.CharField(u'参与者',max_length=100,default='')
+    partyusername = models.CharField(u'参与者账户',max_length=100,default='')
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

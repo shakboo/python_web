@@ -24,9 +24,6 @@
                         {{ field.label_tag }}
                         {{ field }}
                         {{ field.errors }}
-                        {% if field.help_text %}
-                            <p class="help text-small text-muted">{{ field.help_text|safe }}</p>
-                        {% endif %}
                     {% endfor %}
                     <button type="submit" class="btn btn-primary btn-block">注册</button>
                     <input type="hidden" name="next" value="{{ next }}"/>
