@@ -47,7 +47,7 @@
       {% else %}
       <td class="text-center" width="10%" id="forAlert"><a href="{{ context.get_recent_id }}" class="btn btn-warning">确认</a></td>
       {% endif %}
-      <td class="text-center" width="10%"><a href="{{ context.get_recent_id_party }}" class="btn btn-default">我已参与</a></td>
+      <td class="text-center" width="10%"><a href="{{ context.get_recent_id_party }}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ context.participant }}">参与</a></td>
     </tr>
     <div class="modal fade" id="detail{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -86,6 +86,7 @@ $(function(){
             return false;
         };
     });
+    $("[data-toggle='tooltip']").tooltip();
 });
 
 $('#table_id_detail').DataTable({

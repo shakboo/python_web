@@ -81,6 +81,10 @@ def popo(request, pk):
 
 def party(request, pk):
     context = get_object_or_404(Context, pk=pk)
-    context.participant += str(request.user.nickname) + " "
-    context.save()
+    if context.participant.find(str(request.user.nickname)) == -1:
+        context.participant += str(request.user.nickname) + " "
+        context.save()
+        message.add_message(request, message.SUCCESS, '成功参与！')
+    else:
+        message.add_message(request, message.WARNING, '您已经参与此项回归内容了！')
     return HttpResponseRedirect(reverse("regress:detail",kwargs={'version':context.version})) 
