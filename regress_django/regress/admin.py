@@ -11,7 +11,7 @@ admin.site.register(User)
 
 class ContextInline(admin.StackedInline):
     model = Context
-    exclude = ('status', 'handler','participant')
+    exclude = ('status', 'handler','participant','partyusername')
     extra = 2
 
 class VersionAdmin(admin.ModelAdmin):

@@ -3,6 +3,10 @@
 
 {% block title %}<title>{{ versionNow.version|date:"Y-m-d" }}回归详情</title>{% endblock %}
 
+{% block webname %}
+<h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">回归记录平台</font></a></h1>
+{% endblock %}
+
 {% block main %}
 {% if messages %}
 {% for message in messages %}

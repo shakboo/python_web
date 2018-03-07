@@ -20,6 +20,7 @@ from regress import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^regress/', include('regress.urls')),
+    url(r'^vote/', include('vote.urls')),
     url(r'^regress/', include('django.contrib.auth.urls')),
     url(r'^$', views.index, name='index'),
 ]

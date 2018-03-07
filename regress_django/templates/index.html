@@ -3,6 +3,10 @@
 
 {% block title %}<title>首页</title>{% endblock %}
 
+{% block webname %}
+<h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">回归记录平台</font></a></h1>
+{% endblock %}
+
 {% block main %}
 {% if versionList %}
 <table class="table table-striped display" id="table_id_index">

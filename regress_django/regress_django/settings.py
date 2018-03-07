@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'regress',
+    'vote',
 ]
 
 MIDDLEWARE = [
@@ -77,14 +78,26 @@ WSGI_APPLICATION = 'regress_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'shakboo_regress',
+        'NAME' : 'test_regress',
         'USER' : 'postgres',
         'PASSWORD' : 'zxb15988404537',
         'HOST' : '127.0.0.1',
         'PORT' : '5432',
-    }
+    },
+    'vote': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME' : 'test_vote',
+        'USER' : 'postgres',
+        'PASSWORD' : 'zxb15988404537',
+        'HOST' : '127.0.0.1',
+        'PORT' : '5432',
+    },
 }
 
+DATABASE_ROUTERS = ['regress_django.database_router.DatabaseAppsRouter']
+DATABASE_APPS_MAPPING = {
+    'vote': 'vote',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
