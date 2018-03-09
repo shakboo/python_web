@@ -28,7 +28,7 @@ class Version(models.Model):
         return reverse('regress:detail',kwargs={'version':self.version})
 
 class Context(models.Model):
-    version = models.ForeignKey(Version)
+    version = models.ForeignKey(Version, on_delete=models.CASCADE)
     count = models.CharField(u'第几次回归', choices=[(u'第一次',u'第一次'),(u'第二次',u'第二次'),], default='第一次',max_length=10)
     rangen = models.CharField(u'范围', choices=[(u'灰度',u'灰度'),(u'非灰度',u'非灰度'),(u'小组',u'小组'),], default=u'灰度',max_length=10)
     title = models.TextField(u'内容', max_length=200)
