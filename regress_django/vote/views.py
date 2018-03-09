@@ -48,15 +48,15 @@ def detail(request,pk):
 			if selectChoice.whoVote.find(str(request.user.nickname)) == -1:
 				if question.choose == '投票':
 					selectChoice.choiceVote += 1
-					selectChoice.whoVote += (str(request.user.nickname) + ' ')
+					selectChoice.whoVote += str(request.user.nickname) + ' '
 					selectChoice.save()
 				elif question.choose == "问答":
 					selectChoice.choiceAnswer += (request.POST[str(selectedChoiceId)] + " --" + str(request.user.nickname)) + nextLine
-					selectChoice.whoVote += (str(request.user.nickname) + ' ')
+					selectChoice.whoVote += str(request.user.nickname) + ' '
 					selectChoice.save()
 
 			if question.alreadyVote.find(str(request.user.nickname)) == -1:
-				question.alreadyVote += (str(request.user.nickname) + ' ')
+				question.alreadyVote += str(request.user.nickname) + ' '
 				question.save()
 
 	return HttpResponseRedirect(reverse('vote:index'))
