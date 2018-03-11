@@ -38,6 +38,7 @@
 <ul class="nav nav-tabs nav-justified">
   <li><a href="{% url 'index' %}">回归确认</a></li>
   <li><a href="{% url 'vote:index' %}">投票</a></li>
+  <li><a href="#">灰度开关确认</a></li>
 </ul>
 
 {% if user.is_authenticated %}

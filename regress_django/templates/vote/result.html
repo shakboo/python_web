@@ -34,14 +34,14 @@
   <thead>
     <tr>
       <th class="text-center">问题</th>
-      <th class="text-center not-center">问答结果</th>
+      <th class="text-center">问答结果</th>
     </tr>
   </thead>
   <tbody>
     {% for choice in question.choice_set.all %}
       <tr>
-          <td class="text-center" width="50%">{{ choice.choiceText }}</td>
-          <td class="not-center" width="50%"><pre>{{ choice.choiceAnswer }}</pre></td>
+          <td class="text-center" width="50%" style="text-align: left;">{{ choice.choiceText }}</td>
+          <td class="text-center" width="50%"><pre style="text-align: left; white-space: pre-wrap; word-wrap: break-word;">{{ choice.choiceAnswer }}</pre></td>
       </tr>
     {% endfor %}
   </tbody>

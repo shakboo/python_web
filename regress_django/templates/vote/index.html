@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
 
 {% block webname %}
 <h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'vote:index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">投票平台</font></a></h1>
 {% endblock %}
 
 {% block main %}
-<div class="text-center"><a class="btn btn-primary" href="#">发起投票</a></div>
+<div class="text-center"><a class="btn btn-primary" href="{% url 'vote:edit' %}">发起投票</a></div>
+
 <table class="table table-striped display" id="table_id_vote_index">
   <caption class="h4 text-center">投票列表</caption>
   <thead>
@@ -42,6 +44,6 @@
         'sSearch' : '搜索：',
     },
     bSort : false,
-});
+  });
 </script>
 {% endblock %}

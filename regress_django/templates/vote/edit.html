@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block webname %}
+<h1 class="navbar-brand" style="position:relative;bottom:3px"><a href="{% url 'vote:index' %}" style="text-decoration:none"><font style="color:grey;font-size:180%">投票平台</font></a></h1>
+{% endblock %}
+
+{% block main %}
+
+<form class="form" action="{% url 'vote:edit' %}" method="post">
+  {% csrf_token %}
+  <div class="panel panel-default" width="100%">
+      <div class="panel-heading">
+          <h3 class="panel-title text-center">
+              编辑投票内容
+          </h3>
+      </div>
+      <div class="panel-body">
+        <div class="text-center">
+          <h4>标题</h4> 
+          <input type="text" class="form-control" name="title" required="required"> 
+        </div> 
+        <div style="margin-bottom: 1%" class="text-center">
+          <h4>类型</h4> 
+          <input type="radio" value="投票" name="voteChoose" required="required"> 投票/公告确认      
+          <input type="radio" value="问答" name="voteChoose"  required="required" style="margin-left: 1%"> 问答 
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">问题</span>
+          <textarea class="form-control" placeholder="请输入问题内容" name=choiceText></textarea>
+        </div>
+        <input type="hidden" id="addTarget">
+      </div>
+  </div>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-default" id="addChoice">增加问题</button>
+    <button type="submit" class="btn btn-primary">提交内容</button>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+function addLoadEvent(func){
+    var oldonload=window.onload;
+    if(typeof window.onload != 'function') {
+        window.onload = func;
+    }else{
+        window.onload=function(){
+            oldonload();
+            func();
+        };
+    };
+};
+
+function createChoiceBox(){
+    var ChoiceBox = document.createElement("div");
+    var ChoiceTitle = document.createElement("span");
+    var ChoiceInput = document.createElement("textarea");
+    var ChoiceNum = document.getElementsByClassName("input-group");
+    ChoiceBox.className =  "input-group";
+    ChoiceBox.style.marginTop = "1%";
+    ChoiceTitle.className = "input-group-addon";
+    ChoiceTitle.innerHTML = "问题";
+    ChoiceInput.className = "form-control";
+    ChoiceInput.placeholder = "请输入问题内容";
+    ChoiceInput.name = "choiceText";
+    ChoiceBox.appendChild(ChoiceTitle);
+    ChoiceBox.appendChild(ChoiceInput);
+    ChoiceTitle.onclick = function(){
+        ChoiceBox.parentNode.removeChild(ChoiceBox);
+    };
+    return ChoiceBox;
+};
+
+function addChoiceBox(){
+    var addChoiceBtn = document.getElementById("addChoice");
+    addChoiceBtn.onclick = function(){
+        var targetElement = document.getElementById("addTarget");
+        var parent = targetElement.parentNode;
+        parent.insertBefore(createChoiceBox(),targetElement);
+    };
+};
+
+addLoadEvent(addChoiceBox);
+</script>
+{% endblock %}

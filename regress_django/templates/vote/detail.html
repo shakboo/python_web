@@ -29,11 +29,11 @@
 
     {% elif question.choose == '问答' %}
         {% for choice in question.choice_set.all %}
-    <div class="input-group" style="margin:0 10% 0 10%">
-        <span class="input-group-addon">{{ choice.choiceText }}</span>
+    <div style="margin:0 10% 0 10%">
+        <p>{{ choice.choiceText }}</p>
         {# 该条隐藏的input是为了给后台定位 #}
         <input type="text" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}" style="display:none">
-        <input type="text" name="{{ choice.id }}" placeholder="请输入" class="form-control">
+        <textarea name="{{ choice.id }}" placeholder="请输入" class="form-control"></textarea>
     </div>
     <br>
         {% endfor %}

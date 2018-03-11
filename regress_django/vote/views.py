@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
 from .models import Question, Choice
-from .forms import QuestionForm
+from .forms import QuestionForm, ChoiceForm
 from regress.models import User
 import os
 nextLine = os.linesep
@@ -27,10 +27,8 @@ def index(request):
 	if request.method == 'POST':
 		pass
 	else:
-		form = QuestionForm()
 		return render(request, 'vote/index.html', context={
 				'voteDict' : voteDict,
-				'form' : form,
 			})
 
 def detail(request,pk):
@@ -66,3 +64,23 @@ def result(request, pk):
 	return render(request, 'vote/result.html', context={
 			'question' : question,
 		})
+
+def edit(request):
+	if request.POST:
+		question = QuestionForm()
+		question = question.save(commit=False)
+		choiceList = request.POST.getlist("choiceText", "")
+		question.author = str(request.user.nickname) if request.user.nickname else str(request.user.username)
+		question.title = request.POST['title']
+		question.choose = request.POST['voteChoose']
+		question.save()
+		for choiceValue in choiceList:
+			choice = ChoiceForm()
+			choice = choice.save(commit=False)
+			choice.choiceText = choiceValue
+			choice.question = question
+			choice.save()
+		return HttpResponseRedirect(reverse('vote:index'))
+
+	else:
+		return render(request, 'vote/edit.html')
