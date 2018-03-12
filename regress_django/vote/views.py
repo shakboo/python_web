@@ -44,7 +44,7 @@ def detail(request,pk):
 		for selectedChoiceId in selectChoices:
 			selectChoice = question.choice_set.get(pk=selectedChoiceId)
 			if selectChoice.whoVote.find(str(request.user.nickname)) == -1:
-				if question.choose == '投票':
+				if question.choose == '投票' or question.choose == '公告':
 					selectChoice.choiceVote += 1
 					selectChoice.whoVote += str(request.user.nickname) + ' '
 					selectChoice.save()
@@ -69,11 +69,11 @@ def edit(request):
 	if request.POST:
 		question = QuestionForm()
 		question = question.save(commit=False)
-		choiceList = request.POST.getlist("choiceText", "")
 		question.author = str(request.user.nickname) if request.user.nickname else str(request.user.username)
 		question.title = request.POST['title']
 		question.choose = request.POST['voteChoose']
 		question.save()
+		choiceList = request.POST['choiceText'].split(nextLine) if question.choose == '公告' else request.POST.getlist("choiceText", "")
 		for choiceValue in choiceList:
 			choice = ChoiceForm()
 			choice = choice.save(commit=False)

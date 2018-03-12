@@ -8,7 +8,7 @@
 <form action="{% url 'vote:detail' question.id %}" method="post">
     {% csrf_token %}
     <h3 class="text-center">{{ question.title }}</h3>
-    {% if question.choose == '投票' %}
+    {% if question.choose == '投票' or question.choose == '公告' %}
     <table class="table table-striped">
          <thead>
             <tr>
