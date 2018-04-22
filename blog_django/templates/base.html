@@ -2,7 +2,7 @@
 {% load blog_tags %}
 
 <head>
-    <title>Black &amp; White</title>
+    <title>Shakboo & 博客</title>
 
     <!-- meta -->
     <meta charset="UTF-8">
@@ -61,8 +61,9 @@
         </div>
     </header>
 </div>
-<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">网页模板</a></div>
-<div class="copyrights">Modified by <a href="http://zmrenwu.com/">追梦人物的博客</a></div>
+
+<!--<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">网页模板</a></div>
+<div class="copyrights">Modified by <a href="http://zmrenwu.com/">追梦人物的博客</a></div>-->
 
 <div class="content-body">
     <div class="container">
@@ -103,11 +104,11 @@
 
                 <div class="widget widget-category">
                     <h3 class="widget-title">分类</h3>
-                    {% get_categories as category_list %}
+                    {% get_categories as category_dict %}
                     <ul>
-                        {% for category in category_list %}
+                        {% for category,num in category_dict %}
                         <li>
-                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span class="post-count">(13)</span></a>
+                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span class="post-count">({{ num }})</span></a>
                         </li>
                         {% empty %}
                         暂无分类！
@@ -117,13 +118,15 @@
 
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
+                    {% get_tags as tag_list %}
                     <ul>
+                        {% for tag in tag_list %}
                         <li>
-                            <a href="#">Django</a>
+                            <a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}</a>
                         </li>
-                        <li>
-                            <a href="#">Python</a>
-                        </li>
+                        {% empty %}
+                        暂无标签！
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="rss">

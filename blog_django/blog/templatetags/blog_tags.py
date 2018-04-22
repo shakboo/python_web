@@ -1,4 +1,4 @@
-from ..models import Post, Category
+from ..models import Post, Category, Tag
 from django import template
 
 register = template.Library()
@@ -13,4 +13,11 @@ def archives():
 
 @register.simple_tag
 def get_categories():
-    return Category.objects.all()
+    nums = []
+    for category in Category.objects.all():
+        nums.append(len(Post.objects.filter(category=category)))
+    return zip(Category.objects.all(),nums)
+
+@register.simple_tag
+def get_tags():
+	return Tag.objects.all()

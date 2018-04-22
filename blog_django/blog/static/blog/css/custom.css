@@ -68,7 +68,7 @@ body {
 
 p {
     font-family: 'Ubuntu', sans-serif;
-    font-weight: 400;
+    font-weight: 300;
     word-spacing: 1px;
     letter-spacing: 0.01em;
 }
@@ -218,21 +218,19 @@ img {
 }
 
 .post {
-    background: #fff;
     padding: 30px 30px 0;
+    background-color: transparent;
 }
 
 .entry-title {
-    text-align: center;
-    font-size: 1.9em;
+    text-align: left;
+    font-size: 1.5em;
     margin-bottom: 20px;
-    line-height: 1.6;
-    padding: 10px 20px 0;
+    line-height: 1;
 }
 
 .entry-meta {
-    text-align: center;
-    color: #DDDDDD;
+    text-align: left;
     font-size: 13px;
     margin-bottom: 30px;
 }
@@ -866,7 +864,7 @@ img {
     margin-top: 15px;
 }
 
-.comment-item:not(:last-child) {
+.comment-item {
     border-bottom: 1px #ccc solid;
     margin-bottom: 20px;
     padding-bottom: 20px;

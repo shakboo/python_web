@@ -4,13 +4,23 @@ from __future__ import unicode_literals
 import markdown
 from django.shortcuts import render,get_object_or_404
 from comments.forms import CommentForm
-from .models import Post, Category
+from .models import Post, Category, Tag
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 # Create your views here.
 
 def index(request):
     post_list = Post.objects.all().order_by('-created_time') #-表示逆序
+    paginator = Paginator(post_list,10,0)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
     return render(request,'blog/index.html',context={
-        'post_list' : post_list
+        'post_list' : post_list,
+        'page' : customer
     })
 
 def detail(request, pk):
@@ -34,13 +44,47 @@ def detail(request, pk):
 
 def archives(request,year,month):
     post_list = Post.objects.filter(created_time__year=year, created_time__month=month).order_by('-created_time')
+    paginator = Paginator(post_list,10,0)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
     return render(request,'blog/index.html',context={
-        'post_list':post_list
+        'post_list' : post_list,
+        'page' : customer
     })
 
 def category(request, pk):
     cate = get_object_or_404(Category,pk=pk)
-    post_list = Post.object.filter(category=cate).order_by('-created_time')
-    return render(request, 'blog/index.html',context={
-        'post_list':post_list
+    post_list = Post.objects.filter(category=cate).order_by('-created_time')
+    paginator = Paginator(post_list,10,0)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
+    return render(request,'blog/index.html',context={
+        'post_list' : post_list,
+        'page' : customer
     })
+
+def tag(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+    post_list = Post.objects.filter(tags=tag).order_by('-created_time')
+    paginator = Paginator(post_list,10,0)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
+    return render(request,'blog/index.html',context={
+        'post_list' : post_list,
+        'page' : customer
+    }) 
